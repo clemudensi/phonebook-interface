@@ -8,7 +8,8 @@
     "webpack": "webpack",
     "webpack:prod": "webpack -p",
     "server": "webpack-dev-server",
-    "start": "node server.js",
+    "start": "babel-node buildScripts/server.js",
+    "startdevserver": "webpack-express-dev-server",
     "contact-list-db": "node_modules/babel-cli/bin/babel-node.js contact-list-db.js"
   },
   "repository": {
@@ -22,6 +23,7 @@
   },
   "homepage": "https://github.com/github.com/clemudensi#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.24.1",
     "babel-loader": "^6.4.1",
     "babel-preset-es2015": "^6.24.1",
@@ -34,10 +36,12 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "resolve-url-loader": "^2.0.2",
+    "rimraf": "^2.6.2",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.7.0",
+    "webpack-dev-middleware": "^1.12.2",
     "webpack-dev-server": "^2.9.5"
   },
   "dependencies": {
@@ -47,9 +51,11 @@
     "babel-preset-stage-0": "^6.24.1",
     "body-parser": "^1.17.1",
     "bootstrap": "^3.3.7",
+    "cors": "^2.8.4",
     "express": "^4.15.2",
     "express-mailer": "^0.3.1",
     "firebase": "^4.0.0",
+    "frh-react-dial-pad": "^0.1.0",
     "google-auth-library": "^0.10.0",
     "googleapis": "^19.0.0",
     "jquery": "^3.2.1",
@@ -69,9 +75,12 @@
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.5.4",
     "react-firebase": "^2.2.6",
+    "react-moment": "^0.6.8",
     "react-redux": "^5.0.4",
     "react-router-dom": "^4.0.0",
+    "react-time": "^4.3.0",
     "redux": "^3.6.0",
+    "socket.io": "^2.0.4",
     "whatwg-fetch": "^2.0.3",
     "xoauth2": "^1.2.0"
   }

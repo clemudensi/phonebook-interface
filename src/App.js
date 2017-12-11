@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Tabscreen from './components/tabscreen'
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, NavLink } from 'react-router-dom';
 import ContactView from './components/people/contact-view';
+import _ from 'lodash';
 import axios from "axios";
 import './css/style.css';
 
@@ -10,36 +11,38 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            contactlist: []
+            contactList: [],
+            callHistory: []
         }
     }
 
     componentWillMount(){
-        let contacts = 'http://www.mocky.io/v2/581335f71000004204abaf83';
-        axios.get(contacts)
-            .then( (response)=> {
-                console.log(response.data);
-                this.setState({contactlist: response.data});
-            })
+        let contactList = 'http://localhost:5000/v1/contacts';
+        let callHistory = 'http://localhost:5000/v1/call-history';
+        axios.all([
+            axios.get(contactList),
+            axios.get(callHistory)
+        ])
+            .then( axios.spread((list, history) => {
+                console.log(list.data, 'RD');
+                console.log(history.data, 'HD');
+                this.setState({contactList: list.data, callHistory: history.data});
+            }))
             .catch(function (error) {
                 console.error(error);
-            });
-    }
+                })
+            }
 
 
   render() {
-      // console.log(this.props.location, 'PH')
+      // const location = _.omit(location);
     return (
-        <div>
-            <BrowserRouter history={history}>
+            <BrowserRouter>
                 <Switch>
-                    <Route path="/contact" render={()=> <ContactView contactlist={this.state.contactlist} />} />
-                        <div className="title">
-                            <Route path="/" render={()=> <MuiThemeProvider ><Tabscreen contactlist={this.state.contactlist}/></MuiThemeProvider>} />
-                        </div>
+                    <Route path="/contact" component={()=> <ContactView contactlist={this.state.contactList} callHistory={this.state.callHistory} />} />
+                    <Route path="/" render={()=> <MuiThemeProvider ><Tabscreen contactlist={this.state.contactList} callHistory={this.state.callHistory} /></MuiThemeProvider>} />
                 </Switch>
             </BrowserRouter>
-        </div>
     );
   }
 }

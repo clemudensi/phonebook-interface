@@ -3,9 +3,10 @@
  */
 import React from 'react';
 import {Tabs, Tab} from 'material-ui/Tabs';
-import Slider from 'material-ui/Slider';
+// import Dialpad from './dialer/dial-pad';
 import ContactList from './people/contact-list';
 import FontIcon from "material-ui/FontIcon";
+import CallHistory from "./call-history/history";
 
 const styles = {
     headline: {
@@ -22,7 +23,6 @@ function handleActive(tab) {
 class TabsExampleSimple extends React.Component{
 
     render(){
-        console.log(this.props.contactlist, 'TABSCREEN');
         return (
             <div className="title">
                 <Tabs>
@@ -30,14 +30,10 @@ class TabsExampleSimple extends React.Component{
                         icon={<FontIcon className="material-icons">phone</FontIcon>}
                         label="Dailer" >
                         <div>
-                            <h2 style={styles.headline}>Tab One</h2>
-                            <p>
-                                This is an example tab.
-                            </p>
-                            <p>
-                                You can put any sort of HTML or react component in here. It even keeps the component state!
-                            </p>
-                            <Slider name="slider0" defaultValue={0.5} />
+                            <h2 style={styles.headline}>Dial Pad</h2>
+
+
+
                         </div>
                     </Tab>
                     <Tab
@@ -45,9 +41,8 @@ class TabsExampleSimple extends React.Component{
                         label="Call History" >
                         <div>
                             <h2 style={styles.headline}>Tab Two</h2>
-                            <p>
-                                This is another example tab.
-                            </p>
+                            <CallHistory callHistory={this.props.callHistory}/>
+                            {/*<div><Dialpad/></div>*/}
                         </div>
                     </Tab>
                     <Tab

@@ -2,7 +2,10 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-    entry: './src/index.js',
+    devtool: 'inline-source-map',
+    entry: ["webpack-dev-server/client?http://127.0.0.0:8080",
+            "webpack/hot/only-dev-server",
+            './src/index.js'],
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'public')
@@ -12,7 +15,9 @@ module.exports = {
     },
     devServer: {
         port: 8080,
-        contentBase: "./public"
+        contentBase: "./public",
+        hot: true,
+
     },
     module: {
         loaders: [
@@ -34,5 +39,14 @@ module.exports = {
                 loader: 'url-loader'
             },
         ]
-    }
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.DefinePlugin({
+            "process.env": {
+                NODE_ENV: JSON.stringify("development")
+            }
+        })
+    ]
 };

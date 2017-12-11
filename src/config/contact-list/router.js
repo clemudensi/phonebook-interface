@@ -3,10 +3,13 @@
  */
 var express = require('express');
 // // Import index action from movies controller
-var contacts = require('../controllers/contacts');
+var contacts = require('../../controllers/contacts');
 // Initialize the router
 var router = express.Router();
 // // Handle /movies.json route with index action from movies controller
-router.route('/contacts.json').get(contacts.index);
+router.route('/contacts').get(contacts.index);
+router.route('/new').post(contacts.save);
+router.route('/contact/:id').put(contacts.update);
+router.route('/contact/:id').delete(contacts.delete);
 // console.log(test);
 module.exports = router;

@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose');
 var Contact = require('../models/contactsdb');
-var config      = require('../config/database');
+var config      = require('../config/contact-list/database');
 
 var contactlist = {
     "contacts": [{

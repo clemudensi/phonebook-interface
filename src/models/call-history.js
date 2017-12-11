@@ -1,15 +1,15 @@
 /**
- * Created by SLEEK on 11/30/2017.
+ * Created by SLEEK on 12/9/2017.
  */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // Define movie schema
-var contactSchema = new Schema({
+var historySchema = new Schema({
     name: String,
     phone_number: String,
-    address: String
+    time: { type: Date, default: Date.now },
 });
 
 // Export Mongoose model
-module.exports = mongoose.model('Contact', contactSchema);
+module.exports = mongoose.model('History', historySchema);

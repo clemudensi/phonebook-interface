@@ -13,25 +13,57 @@ import _ from 'lodash';
 import { Link, Route } from 'react-router-dom';
 import '../../css/style.css';
 // import {pinkA200, transparent} from 'material-ui/styles/colors';
+import CreateContact from './create-contact';
 
 class ListExampleContacts extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            isCreating: false
+        }
+    }
+
+    onCreateClick(){
+        this.setState({isCreating: true});
+    }
+
+    onCancelClick(){
+        this.setState({isCreating: false});
+    }
+
+    renderCreate(){
+        if(this.state.isCreating){
+           return(
+               <div>
+                   <button onClick={this.onCancelClick.bind(this)}>Cancel</button>
+                   <CreateContact/>
+               </div>
+           )
+        }
+
+        return(
+            <div>
+                <button onClick={this.onCreateClick.bind(this)}>Create Contact</button>
+            </div>
+        )
+    }
+
     renderContact(){
-        return _.map(this.props.contactlist.contacts, (contact, key) => <ListItem
+        return _.map(this.props.contactlist, (contact, key) => <ListItem
                                                                                 key={key}
                                                                                 insetChildren={true}
-                                                                                rightAvatar={<Avatar src="images/chexee-128.jpg" />}
+                                                                                rightAvatar={<Avatar src="public/images/clem.jpg" />}
                                                                                 >
-            <Link style={{paddingLeft: 13, textDecoration: 'none'}} to={{pathname: `contact/${contact.phone_number}`, query: { id: contact.id }}} >
+            <Link style={{paddingLeft: 13, textDecoration: 'none'}} to={{pathname: `contact/${contact.phone_number}`}} >
                 {contact.name}
             </Link></ListItem> );
     }
 
-
     render(){
-        console.log(this.props.contactlist, 'PROPS');
-        console.log(this.renderContact(), "CONT")
         return (
             <div>
+                {this.renderCreate()}
                 <List>
                     {this.renderContact()}
                 </List>
