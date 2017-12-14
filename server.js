@@ -1,24 +1,22 @@
 /**
  * Created by SLEEK on 11/30/2017.
  */
-var express = require('express');
-var app = express();
-var bodyParser = require ("body-parser");
-var morgan = require("morgan");
-var mongoose = require ("mongoose");
-var router = require ("./src/config/contact-list/router");
-var routerHistory = require("./src/config/call-history/router");
-var cors = require('cors');
-var config      = require('./src/config/contact-list/database');
-var configHistory = require("./src/config/call-history/database");
+const express = require('express');
+const app = express();
+const bodyParser = require("body-parser");
+const morgan = require("morgan");
+const mongoose = require("mongoose");
+const router = require("./src/config/contact-list/router");
+const routerHistory = require("./src/config/call-history/router");
+const cors = require('cors');
+// const webpackHotMiddleware = require('webpack-hot-middleware');
+// const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
 const webpack = require('webpack');
 const webpackconfig = require('./webpack.config.js');
 const webpackMiddleware = require("webpack-dev-middleware");
 const compiler = webpack(webpackconfig);
-var mongojs = require('mongojs');
-var db = mongojs('mongodb://localhost:27017/call-history', ['histories']);
 
-var port = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
 app.use(webpackMiddleware(compiler, {
     noInfo: false,
@@ -35,11 +33,9 @@ app.use(webpackMiddleware(compiler, {
         colors: true
     },
     reporter: null,
-    serverSideRender: false,
+    serverSideRender: true,
 }));
 
-mongoose.connect(config.database);
-mongoose.connect(configHistory.database);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');

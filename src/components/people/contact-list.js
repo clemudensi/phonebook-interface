@@ -2,18 +2,15 @@
  * Created by SLEEK on 11/28/2017.
  */
 import React from 'react';
-// import MobileTearSheet from '../../../MobileTearSheet';
 import {List, ListItem} from 'material-ui/List';
-// import ActionGrade from 'material-ui/svg-icons/action/grade';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
-
 import _ from 'lodash';
-// import ContactView from './contact-view';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../../css/style.css';
-// import {pinkA200, transparent} from 'material-ui/styles/colors';
 import CreateContact from './create-contact';
+import {Button, Icon} from "react-materialize";
+import Clem from '../../../public/images/clem.jpg';
 
 class ListExampleContacts extends React.Component {
 
@@ -36,7 +33,10 @@ class ListExampleContacts extends React.Component {
         if(this.state.isCreating){
            return(
                <div>
-                   <button onClick={this.onCancelClick.bind(this)}>Cancel</button>
+                   <p style={{textAlign: "right"}}>
+                       <Button onClick={this.onCancelClick.bind(this)} className='red'
+                               large style={{bottom: '15px', right: '8px'}} ><Icon center>cancel</Icon></Button>
+                   </p>
                    <CreateContact/>
                </div>
            )
@@ -44,18 +44,24 @@ class ListExampleContacts extends React.Component {
 
         return(
             <div>
-                <button onClick={this.onCreateClick.bind(this)}>Create Contact</button>
+                <p style={{textAlign: "right"}}>
+                <Button onClick={this.onCreateClick.bind(this)} className='green'
+                        large style={{bottom: '15px', right: '8px'}} ><Icon center>book</Icon></Button>
+                </p>
+                <List>
+                    {this.renderContact()}
+                </List>
             </div>
         )
     }
 
     renderContact(){
-        return _.map(this.props.contactlist, (contact, key) => <ListItem
-                                                                                key={key}
-                                                                                insetChildren={true}
-                                                                                rightAvatar={<Avatar src="public/images/clem.jpg" />}
-                                                                                >
-            <Link style={{paddingLeft: 13, textDecoration: 'none'}} to={{pathname: `contact/${contact.phone_number}`}} >
+        return _.map(this.props.contactList, (contact, key) => <ListItem
+                                                                            key={key}
+                                                                            insetChildren={true}
+                                                                            rightAvatar={<Avatar src={Clem} />}
+                                                                            >
+            <Link style={{paddingLeft: 13, textDecoration: 'none'}} to={{pathname: `contact/${contact._id}`, query: { id: contact._id }}} >
                 {contact.name}
             </Link></ListItem> );
     }
@@ -64,9 +70,6 @@ class ListExampleContacts extends React.Component {
         return (
             <div>
                 {this.renderCreate()}
-                <List>
-                    {this.renderContact()}
-                </List>
                 <Divider inset={true} />
             </div>
         );

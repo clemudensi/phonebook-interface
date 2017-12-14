@@ -7,21 +7,14 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 import Dialer from './dialer';
 import '../../css/style.css';
+import {Button} from 'react-materialize';
 
 class ContactView extends React.Component{
 
     constructor(props){
         super(props);
-        const {contactlist} = this.props;
-        const contact = _.find(contactlist, contact => '/contact/' + contact.phone_number === window.location.pathname );
-        const id = contact._id;
-        const name = contact.name;
-        const phone = contact.phone_number;
         this.state = {
             isEditing: false,
-            id,
-            name,
-            phone
         };
 
         this.handleContactUpdate = this.handleContactUpdate.bind(this);
@@ -30,11 +23,12 @@ class ContactView extends React.Component{
         this.renderContactAction = this.renderContactAction.bind(this);
     }
 
+
     handleContactUpdate(ev) {
         //sends the comment id and new author/text to our api
         ev.preventDefault();
 
-        const db = 'http://localhost:5000/v1/contact/' + this.state.id;
+        const db = 'http://localhost:5000/v1/contact/' + this.props.id;
         const createContact = {
             name: this.refs.name.value,
             phone_number: this.refs.phone_number.value,
@@ -43,8 +37,9 @@ class ContactView extends React.Component{
 
         axios.put(db, createContact)
             .then( (response) => {
-                this.setState({isEditing: false});
+                this.setState({isEditing: false, contact: createContact});
                 console.log(response);
+                console.log(this.state.contact);
             })
             .catch( (error) => {
                 console.log(error);
@@ -53,12 +48,12 @@ class ContactView extends React.Component{
 
     handleContactDelete() {
         //sends the comment id and new author/text to our api
-        const dbUrl = 'http://localhost:5000/v1/contact/' + this.state.id;
+        const dbUrl = 'http://localhost:5000/v1/contact/' + this.props.id;
         if (confirm("Delete contact " + this.state.name + "?")) {
             return (axios.delete(dbUrl)
                 .then((response) => {
                     console.log(response);
-                    this.setState({status: response.status, clicked: true});
+                    this.setState({status: response.status, contact: this.state.contact});
                 })
                 .catch((error) =>{
                     console.log(error);
@@ -67,29 +62,29 @@ class ContactView extends React.Component{
         return false;
     }
 
-    dialerAction(){
-        const db = 'http://localhost:5000/v1/dialer/';
-
-        const dialer = {
-            name: this.state.name,
-            phone_number: this.state.phone,
-            time: new Date()
-        };
-
-        axios.post(db, dialer)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-        this.setState({isEditing: false});
-    }
+    // dialerAction(){
+    //     const db = 'http://localhost:5000/v1/dialer/' + this.props.id;
+    //
+    //     const dialer = {
+    //         name: this.state.name,
+    //         phone_number: this.state.phone,
+    //         time: new Date()
+    //     };
+    //
+    //     axios.post(db, dialer)
+    //         .then(function (response) {
+    //             console.log(response);
+    //         })
+    //         .catch(function (error) {
+    //             console.log(error);
+    //         });
+    //     this.setState({isEditing: false});
+    // }
 
 
     renderContactAction(){
-        const {contactlist} = this.props;
-        const contact = _.find(contactlist, contact => '/contact/' + contact.phone_number === window.location.pathname );
+        const {contactList} = this.props;
+        const contact = _.find(contactList, contact => '/contact/' + contact._id === window.location.pathname );
         if(this.state.isEditing){
             return(
                 <form onSubmit={this.handleContactUpdate.bind(this)}>
@@ -102,33 +97,34 @@ class ContactView extends React.Component{
             )
         }
         return contact ? (
-            <span>
-                <h1>{contact.name}</h1>
-                <span>
-                    <p>{contact.phone_number}</p>
-                    <Dialer dialerAction={this.dialerAction.bind(this)}/>
-                </span>
-                <p>{contact.address}</p>
-            </span>
+                <div className="contact-list">
+                    <h1>{contact.name}</h1>
+                    <p>{contact.address}</p>
+                    <div>
+                        {contact.phone_number}
+                        <div className="floater"><Dialer contactList={this.props.contactList}/></div>
+                    </div>
+                </div>
         ) : (
             <div>Error: Contact doesn't exist</div>
+
         );
     }
 
     renderButtonAction(){
         if(this.state.isEditing){
             return(
-                <div>
-                    <button onClick={this.handleContactUpdate.bind(this)}>Save</button>
-                    <button onClick={this.onCancelClick.bind(this)}>Cancel</button>
+                <div className="contact-list">
+                    <Button onClick={this.handleContactUpdate.bind(this)}>Save</Button>
+                    <Button onClick={this.onCancelClick.bind(this)}>Cancel</Button>
                 </div>
             );
         }
 
         return(
-            <div>
-                <button onClick={this.onEditClick.bind(this)}>Edit</button>
-                <button onClick={this.handleContactDelete.bind(this)}>Delete</button>
+            <div className="contact-list contact-list-action">
+                <Button onClick={this.onEditClick.bind(this)}>Edit</Button>
+                <Button onClick={this.handleContactDelete.bind(this)}>Delete</Button>
             </div>
         );
     }

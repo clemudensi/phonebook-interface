@@ -5,12 +5,14 @@ import React from 'react';
 import _ from 'lodash';
 import axios from 'axios';
 import Moment from 'react-moment';
+import {Button} from 'react-materialize';
+import '../../css/style.css';
 
 class CallHistory extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            histories: []
+            history: []
         }
 }
 
@@ -23,7 +25,7 @@ class CallHistory extends React.Component {
             return (axios.delete(dbUrl)
                 .then((response) => {
                     console.log(response);
-                    this.setState({id: id});
+                    this.setState({clicked: true});
                 })
                 .catch((error) =>{
                     console.log(error);
@@ -37,9 +39,14 @@ class CallHistory extends React.Component {
 
             <div key={key}>
                 <h4>Name: {history.name} </h4>
-                <p>Phone number: {history.phone_number}</p>
-                <p>Time: <Moment format="HH:mm">{history.time}</Moment></p>
-                <button onClick={this.historyDelete.bind(this)}>Delete</button>
+                <div>
+                    <p>Phone number: {history.phone_number}</p>
+                    <div className="floater">Time: <Moment format="DD/MM HH:mm">{history.time}</Moment></div>
+                </div>
+                <div className="contact-list-action">
+                    <Button onClick={this.historyDelete.bind(this)}>Delete</Button>
+                </div>
+
             </div>
         );
     }

@@ -1,19 +1,21 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     devtool: 'inline-source-map',
-    entry: ["webpack-dev-server/client?http://127.0.0.0:8080",
-            "webpack/hot/only-dev-server",
+    name: 'client',
+    entry: [
             './src/index.js'],
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'public')
+        path: __dirname + '/public',
+
     },
     resolve: {
         extensions: ['.js', '.jsx']
     },
     devServer: {
+        historyApiFallback: true,
         port: 8080,
         contentBase: "./public",
         hot: true,
@@ -45,7 +47,7 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(),
         new webpack.DefinePlugin({
             "process.env": {
-                NODE_ENV: JSON.stringify("development")
+                BROWSER: JSON.stringify(true)
             }
         })
     ]
