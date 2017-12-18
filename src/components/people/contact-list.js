@@ -17,8 +17,10 @@ class ListExampleContacts extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            isCreating: false
-        }
+            isCreating: false,
+            contactList: this.props.contactList
+        };
+        this.renderContact = this.renderContact.bind(this);
     }
 
     onCreateClick(){
@@ -29,6 +31,10 @@ class ListExampleContacts extends React.Component {
         this.setState({isCreating: false});
     }
 
+    componentWillReceiveProps(nextProps) {
+        this.setState({contactList: nextProps.contactList});
+    };
+
     renderCreate(){
         if(this.state.isCreating){
            return(
@@ -37,7 +43,7 @@ class ListExampleContacts extends React.Component {
                        <Button onClick={this.onCancelClick.bind(this)} className='red'
                                large style={{bottom: '15px', right: '8px'}} ><Icon center>cancel</Icon></Button>
                    </p>
-                   <CreateContact/>
+                   <CreateContact {...this.props}/>
                </div>
            )
         }
@@ -56,7 +62,7 @@ class ListExampleContacts extends React.Component {
     }
 
     renderContact(){
-        return _.map(this.props.contactList, (contact, key) => <ListItem
+        return _.map(this.state.contactList, (contact, key) => <ListItem
                                                                             key={key}
                                                                             insetChildren={true}
                                                                             rightAvatar={<Avatar src={Clem} />}

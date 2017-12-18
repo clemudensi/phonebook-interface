@@ -3,7 +3,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Tabscreen from './components/tabscreen'
 import {Route, Switch } from 'react-router-dom';
 import ContactView from './components/people/contact-view-items';
-import Dialer from './components/people/dialer';
 import axios from "axios";
 import './css/style.css';
 
@@ -11,8 +10,7 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state = {
-            contactList: [],
-            callHistory: []
+            // contactList: this.state.contactList
         }
     }
 
@@ -35,16 +33,17 @@ class App extends Component {
 
 
       render() {
+          console.log(this.state.contactList, 'Contactlist-App');
         return (
             <Switch>
                 <Route exact path="/contact/:id"
                        component={(props)=> <ContactView contactList={this.state.contactList}
-                                                         callHistory={this.state.callHistory}
-                                                         id={props.match.params.id}  />} />
+                                                         id={props.match.params.id} />} />
                 <Route path="/"
-                       render={()=> <MuiThemeProvider ><Tabscreen
+                       render={(props)=> <MuiThemeProvider ><Tabscreen
                            contactList={this.state.contactList}
-                           callHistory={this.state.callHistory} /></MuiThemeProvider>} />
+                           callHistory={this.state.callHistory}
+                           id={props.match.params.id} /></MuiThemeProvider>} />
             </Switch>
 
         );

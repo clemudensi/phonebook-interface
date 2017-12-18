@@ -16,6 +16,15 @@ module.exports = {
         });
     },
 
+    single: function(req, res, next){
+        db.histories.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, history){
+            if(err){
+                res.send(err);
+            }
+            res.json(history);
+        });
+    },
+
     save : function(req, res, next){
         var history = req.body;
         if(!history.name || !history.phone_number){

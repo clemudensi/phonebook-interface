@@ -4,13 +4,20 @@
 import React from 'react';
 import { Icon, Toast} from 'react-materialize';
 import axios from 'axios';
-import _ from 'lodash';
+import {Redirect} from "react-router-dom";
 
 class Dialer extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            callHistory: []
+        };
+        this.dialerAction = this.dialerAction.bind(this);
+    }
+
     dialerAction(){
         const db = 'http://localhost:5000/v1/dialer/';
-        const {contactList} = this.props;
-        const contact = _.find(contactList, contact => '/contact/' + contact._id === window.location.pathname );
+        const contact = this.props.contact;
 
         const dialer = {
             name: contact.name,
@@ -19,24 +26,29 @@ class Dialer extends React.Component{
         };
 
         axios.post(db, dialer)
-            .then(function (response) {
+            .then( (response)=> {
+               this.setState({status: response.status, callHistory: this.props.callHistory});
                 console.log(response);
             })
             .catch(function (error) {
                 console.log(error);
             });
-        this.setState({isEditing: false});
+    }
+
+    refreshDelete(){
+        window.location.reload(true);
     }
 
     render(){
         return(
-            <div>
-                <Toast rounded={true}  toast="Calling.....">
-                    <div onClick={this.dialerAction.bind(this)}><Icon >phone</Icon></div>
-                </Toast>
-            </div>
-        )
+            this.state.status ? [this.refreshDelete(), <Redirect to="/" /> ]
+                : <div>
+                    <Toast rounded={true}  toast={"Calling.... " + this.props.contact.name}>
+                        <div onClick={this.dialerAction.bind(this)}><Icon >phone</Icon></div>
+                    </Toast>
+                </div>
+            )
+        }
     }
-}
 
 export default Dialer;

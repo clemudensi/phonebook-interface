@@ -13,19 +13,20 @@ class CallHistory extends React.Component {
         super(props);
         this.state = {
             history: []
-        }
-}
+        };
+    }
 
-    historyDelete(){
-        const {callHistory} = this.props;
-        const  id = _.find(callHistory, history => {return history._id === history._id})._id;
+    historyDelete(key){
+        const callHistory = this.props.callHistory[key];
+        const id = callHistory._id;
         const dbUrl = 'http://localhost:5000/v1/dialer/' + id;
 
-        if (confirm("Delete contact " + this.state.name + "?")) {
+        if (confirm("Delete contact " + callHistory.name + "?")) {
             return (axios.delete(dbUrl)
                 .then((response) => {
                     console.log(response);
-                    this.setState({clicked: true});
+                    this.setState({history: this.state.history});
+                    this.setState({status: response.status});
                 })
                 .catch((error) =>{
                     console.log(error);
@@ -34,29 +35,30 @@ class CallHistory extends React.Component {
         return false;
     }
 
+    refreshDelete(){
+        window.location.reload(true);
+    }
+
     renderHistory(){
         return _.map(this.props.callHistory, (history, key) =>
 
-            <div key={key}>
+            <div key={history._id} data-id={history._id} >
                 <h4>Name: {history.name} </h4>
                 <div>
                     <p>Phone number: {history.phone_number}</p>
                     <div className="floater">Time: <Moment format="DD/MM HH:mm">{history.time}</Moment></div>
                 </div>
-                <div className="contact-list-action">
-                    <Button onClick={this.historyDelete.bind(this)}>Delete</Button>
-                </div>
-
+                <Button onClick={()=> this.historyDelete(key) }>Delete</Button>
             </div>
         );
     }
 
-
     render(){
        return(
-           <div>
+           this.state.status ? this.refreshDelete()
+           : <div>
                {this.renderHistory()}
-           </div>
+            </div>
        )
     }
 }

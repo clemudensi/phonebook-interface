@@ -8,6 +8,7 @@ var contacts = require('../../controllers/contacts');
 var router = express.Router();
 // // Handle /movies.json route with index action from movies controller
 router.route('/contacts').get(contacts.index);
+router.route('/contact/:id').get(contacts.single);
 router.route('/new').post(contacts.save);
 router.route('/contact/:id').put(contacts.update);
 router.route('/contact/:id').delete(contacts.delete);

@@ -13,6 +13,15 @@ module.exports = {
         });
     },
 
+    single: function(req, res, next){
+        db.contacts.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, contact){
+            if(err){
+                res.send(err);
+            }
+            res.json(contact);
+        });
+    },
+
     save : function(req, res, next){
     var contact = req.body;
     if(!contact.name){

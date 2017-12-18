@@ -14,23 +14,22 @@ class CreateContact extends React.Component{
 
     handleCreateContact(ev){
 
-        var db = 'http://localhost:5000/v1/new';
+        const db = 'http://localhost:5000/v1/new';
 
-        var createContact = {
+        const createContact = {
             name: this.refs.name.value,
             phone_number: this.refs.phone_number.value,
             address: this.refs.address.value
         };
 
         axios.post(db, createContact)
-            .then(function (response) {
+            .then( (response) =>{
                 console.log(response);
             })
             .catch(function (error) {
                 console.log(error);
             });
-        
-        this.setState({isEditing: false});
+
     }
 
     clearForm() {
@@ -38,10 +37,9 @@ class CreateContact extends React.Component{
         this.refs.name.focus();
     }
 
-
     render(){
         return(
-            <form ref="addForm" onSubmit={this.handleCreateContact.bind(this)}>
+            <form ref="addForm" onSubmit={this.handleCreateContact.bind(this)} >
                 Name: <input ref="name" type="text" placeholder="Type your name"/>
                 <br/>
                 Phone number: <input ref="phone_number" type="text" placeholder="Type your phone number"/>
