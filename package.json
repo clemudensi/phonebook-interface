@@ -65,7 +65,7 @@
     "lodash": "^4.17.4",
     "material-ui": "^0.19.4",
     "moment": "^2.19.3",
-    "mongodb": "~2.0",
+    "mongodb": "^2.2.30",
     "mongojs": "^2.4.1",
     "mongoose": "4.10.8",
     "morgan": "^1.9.0",
@@ -73,6 +73,7 @@
     "nodemailer": "^4.0.1",
     "nodemailer-direct-transport": "^3.3.2",
     "nodemon": "^1.12.1",
+    "prop-types": "latest",
     "react": "^16.0.0",
     "react-api": "^1.0.5",
     "react-bootstrap": "^0.30.8",
@@ -87,7 +88,6 @@
     "socket.io": "^2.0.4",
     "uglifyjs-webpack-plugin": "^1.1.4",
     "whatwg-fetch": "^2.0.3",
-    "xoauth2": "^1.2.0",
-    "prop-types": "latest"
+    "xoauth2": "^1.2.0"
   }
 }
