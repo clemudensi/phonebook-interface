@@ -8,9 +8,7 @@
     "webpack": "webpack",
     "webpack:prod": "webpack -p",
     "server": "webpack-dev-server",
-    "start": "babel-node buildScripts/server.js",
-    "startdevserver": "webpack-express-dev-server",
-    "contact-list-db": "node_modules/babel-cli/bin/babel-node.js contact-list-db.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
