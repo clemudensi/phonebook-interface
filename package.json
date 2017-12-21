@@ -39,10 +39,12 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
+    "uglifyjs-webpack-plugin": "^1.1.4",
     "url-loader": "^0.5.8",
     "webpack": "^2.7.0",
     "webpack-dev-middleware": "^1.12.2",
-    "webpack-dev-server": "^2.9.5"
+    "webpack-dev-server": "^2.9.5",
+    "webpack-merge": "^4.1.1"
   },
   "dependencies": {
     "axios": "^0.17.1",
@@ -83,7 +85,9 @@
     "react-time": "^4.3.0",
     "redux": "^3.6.0",
     "socket.io": "^2.0.4",
+    "uglifyjs-webpack-plugin": "^1.1.4",
     "whatwg-fetch": "^2.0.3",
-    "xoauth2": "^1.2.0"
+    "xoauth2": "^1.2.0",
+    "prop-types": "latest"
   }
 }

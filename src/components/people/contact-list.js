@@ -11,6 +11,7 @@ import '../../css/style.css';
 import CreateContact from './create-contact';
 import {Button, Icon} from "react-materialize";
 import Clem from '../../../public/images/clem.jpg';
+import PropTypes from 'prop-types';
 
 class ListExampleContacts extends React.Component {
 
@@ -32,7 +33,9 @@ class ListExampleContacts extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({contactList: nextProps.contactList});
+        if(nextProps.contactList !== this.props.contactList) {
+            this.setState({contactList: nextProps.contactList});
+        }
     };
 
     renderCreate(){
@@ -83,3 +86,11 @@ class ListExampleContacts extends React.Component {
 }
 
 export default ListExampleContacts;
+
+ListExampleContacts.propTypes = {
+    id: PropTypes.string,
+    contactList: PropTypes.array,
+    contact: PropTypes.object,
+    name: PropTypes.string,
+    isCreating: PropTypes.bool
+};

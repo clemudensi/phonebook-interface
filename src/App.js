@@ -17,13 +17,12 @@ class App extends Component {
     componentDidMount(){
         let contactList = 'http://localhost:5000/v1/contacts';
         let callHistory = 'http://localhost:5000/v1/call-history';
-        axios.all([
+        const that = this;
+        that.serverRequest = axios.all([
             axios.get(contactList),
             axios.get(callHistory)
         ])
             .then( axios.spread((list, history) => {
-                console.log(list.data, 'RD');
-                console.log(history.data, 'HD');
                 this.setState({contactList: list.data, callHistory: history.data});
             }))
             .catch(function (error) {
@@ -31,9 +30,11 @@ class App extends Component {
                  })
             }
 
+    componentWillUnmount(){
+        this.serverRequest.abort();
+    }
 
       render() {
-          console.log(this.state.contactList, 'Contactlist-App');
         return (
             <Switch>
                 <Route exact path="/contact/:id"

@@ -7,6 +7,7 @@ import axios from 'axios';
 import Moment from 'react-moment';
 import {Button} from 'react-materialize';
 import '../../css/style.css';
+import PropTypes from 'prop-types';
 
 class CallHistory extends React.Component {
     constructor(props){
@@ -42,7 +43,7 @@ class CallHistory extends React.Component {
     renderHistory(){
         return _.map(this.props.callHistory, (history, key) =>
 
-            <div key={history._id} data-id={history._id} >
+            <div key={key}>
                 <h4>Name: {history.name} </h4>
                 <div>
                     <p>Phone number: {history.phone_number}</p>
@@ -64,3 +65,12 @@ class CallHistory extends React.Component {
 }
 
 export default CallHistory;
+
+CallHistory.propTypes = {
+    id: PropTypes.string,
+    history: PropTypes.array,
+    contactList: PropTypes.object,
+    name: PropTypes.string,
+    address: PropTypes.string,
+    phone_number: PropTypes.string
+};

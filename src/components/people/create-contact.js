@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 class CreateContact extends React.Component{
     constructor(props) {
@@ -12,7 +13,7 @@ class CreateContact extends React.Component{
         this.handleCreateContact = this.handleCreateContact.bind(this);
     }
 
-    handleCreateContact(ev){
+    handleCreateContact(){
 
         const db = 'http://localhost:5000/v1/new';
 
@@ -54,3 +55,12 @@ class CreateContact extends React.Component{
 }
 
 export default CreateContact;
+
+CreateContact.propTypes = {
+    id: PropTypes.string,
+    contacts: PropTypes.array,
+    contact: PropTypes.object,
+    name: PropTypes.string,
+    address: PropTypes.string,
+    phone_number: PropTypes.string
+};

@@ -5,30 +5,25 @@ import React from 'react';
 import {Button} from "react-materialize";
 import axios from 'axios';
 import ContactView from "./contact-view-items";
+import PropTypes from 'prop-types';
 
 class ContactForm extends React.Component{
     constructor(props) {
         super(props);
-        // this.handleChange = this.handleChange.bind(this);
         this.state = {
             isEditing: true,
             contact: '',
-            value: this.state
         };
     }
 
 
     handleContactUpdate() {
-        //sends the comment id and new author/text to our api
-        // ev.preventDefault();
-
         let db = 'http://localhost:5000/v1/contact/' + this.props.id;
         let contactUpdate = {
             name: this.refs.name.value,
             phone_number: this.refs.phone_number.value,
             address: this.refs.address.value
         };
-
         axios.put(db, contactUpdate)
             .then( (response) => {
                 this.setState({isEditing: false});
@@ -44,14 +39,9 @@ class ContactForm extends React.Component{
         this.setState({isEditing: false});
     }
 
-    // handleChange(event) {
-    //     this.setState({value: event.target.value});
-    // }
-
     render() {
-        console.log(this.state.contact, 'Shalala')
         if (this.state.isEditing) {
-            const contact = this.props.contact;
+            const {contact} = this.props;
             return (
                 <div>
                     <form onSubmit={this.handleContactUpdate.bind(this)}>
@@ -75,3 +65,12 @@ class ContactForm extends React.Component{
 }
 
 export default ContactForm;
+
+ContactForm.propTypes = {
+    id: PropTypes.string,
+    contacts: PropTypes.array,
+    contact: PropTypes.object,
+    name: PropTypes.string,
+    address: PropTypes.string,
+    phone_number: PropTypes.string
+};
