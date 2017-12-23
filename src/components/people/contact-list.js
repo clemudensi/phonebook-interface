@@ -12,6 +12,7 @@ import CreateContact from './create-contact';
 import {Button, Icon} from "react-materialize";
 import Clem from '../../../public/images/clem.jpg';
 import PropTypes from 'prop-types';
+import Search from "./search";
 
 class ListExampleContacts extends React.Component {
 
@@ -19,9 +20,11 @@ class ListExampleContacts extends React.Component {
         super(props);
         this.state = {
             isCreating: false,
+            search: '',
             contactList: this.props.contactList
         };
         this.renderContact = this.renderContact.bind(this);
+        this.searchContacts = this.searchContacts.bind(this);
     }
 
     onCreateClick(){
@@ -32,10 +35,15 @@ class ListExampleContacts extends React.Component {
         this.setState({isCreating: false});
     }
 
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.contactList !== this.props.contactList) {
             this.setState({contactList: nextProps.contactList});
         }
+    };
+
+    searchContacts(event){
+        this.setState({search: event.target.value})
     };
 
     renderCreate(){
@@ -57,6 +65,7 @@ class ListExampleContacts extends React.Component {
                 <Button onClick={this.onCreateClick.bind(this)} className='green'
                         large style={{bottom: '15px', right: '8px'}} ><Icon center>book</Icon></Button>
                 </p>
+                <Search searchContacts={this.searchContacts.bind(this)} contactList={this.state.contactList} value={this.state.value}/>
                 <List>
                     {this.renderContact()}
                 </List>
@@ -65,7 +74,9 @@ class ListExampleContacts extends React.Component {
     }
 
     renderContact(){
-        return _.map(this.state.contactList, (contact, key) => <ListItem
+        const searchContact = _.filter(this.state.contactList, (contact => {return contact.name.toLowerCase().indexOf(this.state.search) !== -1}));
+
+        return _.map(searchContact, (contact, key) => <ListItem
                                                                             key={key}
                                                                             insetChildren={true}
                                                                             rightAvatar={<Avatar src={Clem} />}

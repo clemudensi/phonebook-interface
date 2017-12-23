@@ -5,9 +5,9 @@ const webpack = require('webpack'),
 const babelSettings = JSON.parse(fs.readFileSync(".babelrc"));
 const merge = require('webpack-merge');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-require("babel-core").transform("code", {
-    plugins: ["minify-dead-code-elimination"]
-});
+// require("babel-core").transform("code", {
+//     plugins: ["minify-dead-code-elimination"]
+// });
 
 const config = {
 
@@ -60,7 +60,7 @@ const config = {
         // new webpack.optimize.UglifyJsPlugin(),
         new webpack.DefinePlugin({
             "process.env": {
-                'NODE_ENV': JSON.stringify('production')
+                'NODE_ENV': JSON.stringify('development')
             }
         })
     ]
